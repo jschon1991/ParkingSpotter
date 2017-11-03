@@ -1,0 +1,101 @@
+Hello,
+
+here are steps to install all requirements for this application.
+
+1. install python 3
+2. install virtualenv (sudo pip install --upgrade virtualenv)
+2.1 create virtualenv and activate it (from now on, work only within virtualenv that you created)
+3. install tensorflow (https://www.tensorflow.org/install/)
+4. install all other required plugins (run command sudo pip3 install -r requirements.txt)
+5. install opencv
+NOTE: for step 3 and 4 you need to have virtualenv activated
+
+
+
+
+
+for ubuntu http://www.pyimagesearch.com/2015/06/22/install-opencv-3-0-and-python-2-7-on-ubuntu/
+for OS X
+brew install ffmpeg
+pip install numpy (if you don't have already)
+
+cd ~
+git clone https://github.com/Itseez/opencv.git
+cd opencv
+git checkout 3.1.0
+cd ~
+git clone https://github.com/Itseez/opencv_contrib.git
+cd opencv_contrib
+git checkout 3.1.0
+cd ~/opencv
+mkdir build
+cd build
+cmake -D CMAKE_BUILD_TYPE=RELEASE CMAKE_INSTALL_PREFIX=/usr/local INSTALL_C_EXAMPLES=OFF INSTALL_PYTHON_EXAMPLES=OFF OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules BUILD_EXAMPLES=OFF ..
+make -j4 (replace number with number of available cores on your processor)
+sudo make install
+cd path_to_your_virtual_env/lib/python3.4/site-packages/
+ln -s /usr/local/lib/python3.4/site-packages/cv2.so cv2.so
+
+
+if trouble with QTKit during make -j4
+git fetch https://github.com/opencv/opencv.git +pull/7266/head:pr7266
+git checkout pr7266 # instread of 3.0.0 or 3.1.0
+
+
+
+if you want a set some test data from terminal
+- activate virtual env
+- go to project root
+- type python manage.py shell
+after it launches type
+
+from autorecognizer.models import Camera
+c = Camera(name='[NAME]', streamUrl='[IP]')
+c.save()
+ParkingSpot.objects.all().delete()
+[REPLACE NUMBERS(COORDINATES) WITH YOUR]
+ParkingSpot(camera=c, leftUpperX=519, leftUpperY=886, rightUpperX=533, rightUpperY=891, rightLowerX=538, rightLowerY=856, leftLowerX=524, leftLowerY=852).save()
+ParkingSpot(camera=c, leftUpperX=529, leftUpperY=891, rightUpperX=542, rightUpperY=894, rightLowerX=545, rightLowerY=863, leftLowerX=539, leftLowerY=858).save()
+ParkingSpot(camera=c, leftUpperX=536, leftUpperY=894, rightUpperX=549, rightUpperY=900, rightLowerX=555, rightLowerY=870, leftLowerX=539, leftLowerY=864).save()
+ParkingSpot(camera=c, leftUpperX=546, leftUpperY=899, rightUpperX=555, rightUpperY=906, rightLowerX=561, rightLowerY=873, leftLowerX=551, leftLowerY=868).save()
+ParkingSpot(camera=c, leftUpperX=552, leftUpperY=909, rightUpperX=565, rightUpperY=914, rightLowerX=576, rightLowerY=875, leftLowerX=557, leftLowerY=869).save()
+ParkingSpot(camera=c, leftUpperX=560, leftUpperY=914, rightUpperX=572, rightUpperY=919, rightLowerX=579, rightLowerY=885, leftLowerX=565, leftLowerY=878).save()
+ParkingSpot(camera=c, leftUpperX=576, leftUpperY=898, rightUpperX=587, rightUpperY=903, rightLowerX=590, rightLowerY=891, leftLowerX=577, leftLowerY=884).save()
+ParkingSpot(camera=c, leftUpperX=532, leftUpperY=788, rightUpperX=543, rightUpperY=791, rightLowerX=546, rightLowerY=760, leftLowerX=534, leftLowerY=756).save()
+ParkingSpot(camera=c, leftUpperX=539, leftUpperY=791, rightUpperX=553, rightUpperY=800, rightLowerX=556, rightLowerY=765, leftLowerX=542, leftLowerY=758).save()
+ParkingSpot(camera=c, leftUpperX=548, leftUpperY=796, rightUpperX=563, rightUpperY=804, rightLowerX=565, rightLowerY=772, leftLowerX=551, leftLowerY=765).save()
+ParkingSpot(camera=c, leftUpperX=561, leftUpperY=804, rightUpperX=574, rightUpperY=811, rightLowerX=578, rightLowerY=777, leftLowerX=565, leftLowerY=772).save()
+ParkingSpot(camera=c, leftUpperX=570, leftUpperY=807, rightUpperX=582, rightUpperY=812, rightLowerX=587, rightLowerY=778, leftLowerX=572, leftLowerY=774).save()
+ParkingSpot(camera=c, leftUpperX=580, leftUpperY=812, rightUpperX=595, rightUpperY=820, rightLowerX=600, rightLowerY=781, leftLowerX=585, leftLowerY=776).save()
+ParkingSpot(camera=c, leftUpperX=589, leftUpperY=818, rightUpperX=607, rightUpperY=825, rightLowerX=612, rightLowerY=784, leftLowerX=594, leftLowerY=779).save()
+
+
+there are just few parking spots prepared. You can add few more if you want.
+then you can create some data.
+(still in python shell)
+
+from autorecognizer.models import Camera
+c = Camera.objects.filter(pk=1)[0]
+from autorecognizer.utils import image_utils
+image_utils.create_sample_data_from_stream(c) (there are few optional parameters)
+
+it will create some data for training. You just have to put them into categories -> in media/learn_data/ there are two folders(categories)
+split data to these categories.
+
+if you have not, quit shell (ctrl+d) and run following command
+python autorecognizer/utils/retrainer.py (there are few optional parameters)
+
+after finishing training you have to create Graph in DB
+to do so. get your full path to generated labels and graph (their located inside project in media/data/)
+and run this command within the python shell
+from autorecognizer.models import Graph
+Graph(path=[pathToGraph], labelsPath=[pathToLabels]).save()
+
+it will train your neural network.
+
+then you can run from python shell again command
+from autorecognizer.utils import image_utils
+threads = image_utils.run_recognition()
+
+for stopping thread just run image_utils.cancel_recognition(threads) (also contains optional parameter)
+

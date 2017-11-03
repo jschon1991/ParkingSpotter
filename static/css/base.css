@@ -1,0 +1,17 @@
+.disable-padding {
+    padding: 0;
+}
+.header-main {
+}
+.header-panel {
+}
+
+#imgwrapper {
+    position: relative;
+}
+#img {
+    position: absolute;
+}
+#imgcanvas {
+    position: absolute;
+}

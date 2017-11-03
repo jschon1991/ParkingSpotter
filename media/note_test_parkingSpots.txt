@@ -1,0 +1,91 @@
+	1:
+		luX: 26
+		luY: 86
+		ruX: 26
+		ruY: 208
+		rlX: 204
+		rlY: 208
+		llX: 204
+		llY: 86
+	2:
+		luX: 26
+		luY: 246
+		ruX: 26
+		ruY: 368
+		rlX: 204
+		rlY: 368
+		llX: 204
+		llY: 246
+	3:
+		luX: 26
+		luY: 410
+		ruX: 26
+		ruY: 535
+		rlX: 204
+		rlY: 535
+		llX: 204
+		llY: 410
+	4:
+		luX: 26
+		luY: 574
+		ruX: 26
+		ruY: 698
+		rlX: 204
+		rlY: 698
+		llX: 204
+		llY: 574
+	5:
+		luX: 26
+		luY: 736
+		ruX: 26
+		ruY: 860
+		rlX: 204
+		rlY: 860
+		llX: 204
+		llY: 736
+6:
+	luX: 338
+	luY: 86
+	ruX: 338
+	ruY: 208
+	rlX: 514
+	rlY: 208
+	llX: 514
+	llY: 86
+7:
+	luX: 338
+	luY: 246
+	ruX: 338
+	ruY: 368
+	rlX: 514
+	rlY: 368
+	llX: 514
+	llY: 246
+8:
+	luX: 338
+	luY: 410
+	ruX: 338
+	ruY: 535
+	rlX: 514
+	rlY: 535
+	llX: 514
+	llY: 410
+9:
+	luX: 338
+	luY: 574
+	ruX: 338
+	ruY: 698
+	rlX: 514
+	rlY: 698
+	llX: 514
+	llY: 574
+10:
+	luX: 338
+	luY: 736
+	ruX: 338
+	ruY: 860
+	rlX: 514
+	rlY: 860
+	llX: 514
+	llY: 736
+ 

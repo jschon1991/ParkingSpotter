@@ -1,0 +1,106 @@
+{% extends 'recognizer/base.html' %}
+{% load staticfiles %}
+{% block scripts %}
+    <script src="{% static "js/base.js" %}"></script>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static "css/base.css" %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="col-xs-12 disable-padding">
+        <a href="{% url "index" %}">< Back </a>
+        <h3>Add parking spot</h3>
+        {% if save_msg %}
+            <span class="{% if save_status %}msg-ok{% else %}msg-error{% endif %}">{{ save_msg }}</span>
+        {% endif %}
+        <h3>Camera {{ camera.id }} - {{ camera.name }}</h3>
+        <p>Stream Url: {{ camera.streamUrl }}</p>
+        <p>Is Stream: {{ camera.isStream }}</p>
+        {#        {% if camera.isStream %}<p>Stream format mjpg: {{ camera.isMjpeg }}</p>{% endif %}#}
+        {% if img %}
+            <div class="col-xs-12 disable-padding">
+                <div id="imgwrapper">
+                    <img id="img" src="{% static "imgs/tmp.jpg" %}">
+                    <canvas id="imgcanvas" width="1000" height="1000" onmousemove="getPos(event)"
+                            onmouseout="stopTracking()" onclick="fillValues(event)">Y
+                        our browser does not support the HTML5 canvas tag.
+                    </canvas>
+                </div>
+                <script>
+
+                    var c = document.getElementById("imgcanvas");
+                    var img = document.getElementById("img");
+                    document.getElementById("imgwrapper").style.height = img.height+'px';
+                    c.width = img.width;
+                    c.height = img.height;
+                    var ctx = c.getContext("2d");
+
+                    {% for spot in spots %}
+                        ctx.beginPath();
+                        ctx.strokeStyle="{% if 'free' in spot.status %}green{% else %}red{% endif %}";
+                        ctx.moveTo({{ spot.leftUpperY }}, {{ spot.leftUpperX }});
+                        ctx.lineTo({{ spot.rightUpperY }}, {{ spot.rightUpperX }});
+                        ctx.moveTo({{ spot.rightUpperY }}, {{ spot.rightUpperX }});
+                        ctx.lineTo({{ spot.rightLowerY }}, {{ spot.rightLowerX }});
+                        ctx.moveTo({{ spot.rightLowerY }}, {{ spot.rightLowerX }});
+                        ctx.lineTo({{ spot.leftLowerY }}, {{ spot.leftLowerX }});
+                        ctx.moveTo({{ spot.leftLowerY }}, {{ spot.leftLowerX }});
+                        ctx.lineTo({{ spot.leftUpperY }}, {{ spot.leftUpperX }});
+                        ctx.closePath();
+                        ctx.stroke();
+                    {% endfor %}
+
+                </script>
+                <p id="imgcords"></p>
+                <p>You can add cords by clicking on image. Order of filling is Left Upper, Right Upper, Right Lower
+                    and Left Lower.</p>
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="col-xs-6">
+                <label for="ulx">Upper Left X:</label>
+                <input id="ulx" type="text" name="ulx"><br />
+                <label for="uly">Upper Left Y:</label>
+                <input id="uly" type="text" name="uly"><br />
+            </div>
+            <div class="col-xs-6">
+                <label for="urx">Upper Right X:</label>
+                <input id="urx" type="text" name="urx"><br />
+                <label for="ury">Upper Right Y:</label>
+                <input id="ury" type="text" name="ury"><br />
+            </div>
+            <div class="col-xs-6">
+                <label for="llx">Lower Left X:</label>
+                <input id="llx" type="text" name="llx"><br />
+                <label for="lly">Lower Left Y:</label>
+                <input id="lly" type="text" name="lly"><br />
+            </div>
+            <div class="col-xs-6">
+                <label for="lrx">Lower Right X:</label>
+                <input id="lrx" type="text" name="lrx"><br />
+                <label for="lry">Lower Right Y:</label>
+                <input id="lry" type="text" name="lry"><br />
+            </div>
+            <div class="col-xs-12">
+                <input type="submit" value="Add Spot">
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-12 disable-padding">
+        <h3>Parking spot list</h3>
+        <ul>
+            {% for spot in spots %}
+                <li>
+                    Spot {{ spot.id }}
+                    <a href="{% url "delete_spot" spot.id %}">X</a>
+                    &emsp;
+                    {{ spot.status }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

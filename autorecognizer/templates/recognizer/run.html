@@ -1,0 +1,18 @@
+{% extends 'recognizer/base.html' %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-xs-12 disable-padding">
+        <h3>Recognizer settings</h3>
+        {% if run_msg %}
+            <span class="{% if run_status %}msg-ok{% else %}msg-error{% endif %}">{{ run_msg }}</span>
+        {% endif %}
+{#    TODO: call run#}
+        <input type="submit" value="{% if running %}Stop{% else %}Run{% endif %}">
+    </div>
+{% endblock %}

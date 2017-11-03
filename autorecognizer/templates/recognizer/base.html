@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- JQuery -->
+<script   src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
+<!-- Bootstrap Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Custom scripts -->
+{#<script srd="{% static "js/base.js" %}"/>#}
+{% block scripts %}
+{% endblock %}
+
+<!-- Bootstrap style -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Custom styles -->
+{#<link rel="stylesheet" src="{% static "css/base.css" %}"/>#}
+{% block styles %}
+{% endblock %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recognizer</title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-xs-12 disable-padding header-panel">
+            <div class="col-xs-2">
+                <h1 class="header-main">Recognizer</h1>
+            </div>
+            <div class="col-xs-10">
+
+            </div>
+        </div>
+        <div class="col-xs-12 disable-padding">
+            <div class="col-xs-3 disable-padding">
+                <ul>
+                    <li class="nav-item"><a href="{% url 'index' %}">Camera settings</a></li>
+{#                    <li class="nav-item"><a href="{% url 'settings' %}">Recognizer settings</a></li>#}
+                </ul>
+            </div>
+            <div class="col-xs-9 disable-padding">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

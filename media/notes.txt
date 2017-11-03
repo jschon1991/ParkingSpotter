@@ -1,0 +1,41 @@
+budu tu v learn_data niekolko kategorii 
+	- free
+	- occupied
+	- obsticle (mozno ako prekazka)
+
+do priecinku new_data sa budu ukladat navzorkovane obrazky z kamier
+	- tie sa nacitaju
+	- zistia sa z DB suradnice ich parkovacich miest
+	- vystrihnu sa do listu vsetky parkovacie miesta a znormuju sa ich velkosti
+	- posunie sa to algoritmu na labelizaciu (rozpoznanie)
+	- a nasledne sa refreshnu informacie ohladom volnych parkovacich miest
+
+
+
+
+vytvorit datovy model pre graf (id, graf/url?, date)
+vytvorit datovy model kamery (idKamery, longtitude, latitude, urlStreamu?, )
+vytvorit datovy model miesta (idMiesta, idKamery(lookup), leftUpperX, leftUpperY, rightUpperX, rightUpperY,
+                                                        rightLowerX, rightLowerY, leftLowerX, leftLowerY)
+nastavit mysql (nainstalovat connector, nainstalovat MySQL, nastavit pripojenie)
+zmigrovat vsetko do novej DB
+skusit tam nahadzat akoze nejake kamery.
+
+
+
+vytvorit nieco na transformaciu?
+
+
+
+
+
+installed
+django
+mysql-connector
+mysql-client
+
+()mysql not working right now
+try postgres alebo daco podobne
+
+zatial ostavam na sqlite
+

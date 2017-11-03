@@ -1,0 +1,4 @@
+occupieddummy
+freedummy
+free
+occupied

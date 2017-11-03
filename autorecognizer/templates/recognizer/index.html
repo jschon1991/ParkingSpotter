@@ -1,0 +1,40 @@
+{% extends 'recognizer/base.html' %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-xs-12 disable-padding">
+        <h3>Add camera</h3>
+        {% if save_msg %}
+            <span class="{% if save_status %}msg-ok{% else %}msg-error{% endif %}">{{ save_msg }}</span>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="camera_name">Camera name</label>
+            <input id="camera_name" type="text" name="name"><br />
+            <label for="is_stream">Is source stream</label>
+            <input id="is_stream" type="checkbox" name="isStream" value=True><br />
+{#            <label for="format">Stream is mjpg</label>#}
+{#            <input id="format" type="checkbox" name="ismjpg" value=True> <br />#}
+            <label for="path">Path to source</label>
+            <input id="path" type="text" name="streamUrl"> <br />
+            <input type="submit" value="Add camera">
+        </form>
+    </div>
+    <div class="col-xs-12 disable-padding">
+        <h3>Camera list</h3>
+        <ul>
+            {% for camera in cameras %}
+                <li>
+                    <a href="{% url "camera_detail" camera.id %}">Camera {{ camera.id }} - {{ camera.name }}</a>
+                    &nbsp;
+                    <a href="{% url "delete_camera" camera.id %}">X</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
